@@ -16,6 +16,7 @@ RUN mkdir ${LOGSTASH_HOME} && \
 	
 # Add the script to run docker-doradus-logstash
 ADD docker-logstash-redis.sh /usr/bin/
+RUN chmod a+x /usr/bin/docker-logstash-redis.sh
 	
 # Any docker logs need to be mounted at /host/var/log. Typically, this means that
 # a volume should be created mapping /var/lib/docker/containers to /host/var/log 

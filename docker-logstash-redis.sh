@@ -9,13 +9,6 @@ LOGSTASH_BINARY="${LOGSTASH_SRC_DIR}/logstash/bin/logstash"
 LOGSTASH_CONFIG_DIR="${LOGSTASH_SRC_DIR}/conf.d"
 LOGSTASH_LOG_DIR='/var/log/logstash'
 LOGSTASH_LOG_FILE="${LOGSTASH_LOG_DIR}/logstash.log"
-tableName="$(echo 'logs_'${DOCKER_APP_NAME}'_'${DOCKER_NAMESPACE})"
-data="{\"LoggingApplication\":{\"key\":\"LoggingApp\", \"tables\": {\"$tableName\": { \"fields\": {\"Timestamp\": {\"type\": \"timestamp\"},\"LogLevel\": {\"type\": \"text\"},\"Message\": {\"type\": \"text\"}, \"Source\": {\"type\": \"text\"}}}}}}"
-
-
-function create_doradus_table() {
-   curl -X POST -H "content-type: application/json" -u ${DOCKER_DORADUS_USER}:${DOCKER_DORADUS_PWD} -d "$data" ${DORADUS_HOST}:${DORADUS_PORT}/_applications
-}
 
 function logstash_start_agent() {
     local binary="$LOGSTASH_BINARY"
@@ -42,8 +35,5 @@ function logstash_start_agent() {
         ;;
     esac
 }
-
-
-create_doradus_table
 
 logstash_start_agent agent
